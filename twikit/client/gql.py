@@ -15,7 +15,8 @@ from ..constants import (
     TWEET_RESULT_BY_REST_ID_FEATURES,
     TWEET_RESULTS_BY_REST_IDS_FEATURES,
     USER_FEATURES,
-    USER_HIGHLIGHTS_TWEETS_FEATURES
+    USER_HIGHLIGHTS_TWEETS_FEATURES,
+    EXPLORE_PAGE_FEATURES
 )
 from ..utils import flatten_params, get_query_id
 
@@ -68,6 +69,7 @@ class Endpoint:
     DELETE_BOOKMARK_FOLDER = url('2UTTsO-6zs93XqlEUZPsSg/DeleteBookmarkFolder')
     CREATE_BOOKMARK_FOLDER = url('6Xxqpq8TM_CREYiuof_h5w/createBookmarkFolder')
     FOLLOWERS = url('gC_lyAxZOptAMLCJX5UhWw/Followers')
+    EXPLORE_PAGE = url('Lr7rbLxwMLDrWFJrlCdRVw/ExplorePage')
     BLUE_VERIFIED_FOLLOWERS = url('VmIlPJNEDVQ29HfzIhV4mw/BlueVerifiedFollowers')
     FOLLOWERS_YOU_KNOW = url('f2tbuGNjfOE8mNUO5itMew/FollowersYouKnow')
     FOLLOWING = url('2vUj-_Ek-UmBVDNtd8OnQA/Following')
@@ -301,6 +303,10 @@ class GQLClient:
     async def favoriters(self, tweet_id, count, cursor):
         return await self.tweet_engagements(tweet_id, count, cursor, Endpoint.FAVORITERS)
 
+    async def explore_page(self):
+        variables = {'cursor': ''}        
+        return await self.gql_get(Endpoint.EXPLORE_PAGE, variables, EXPLORE_PAGE_FEATURES)
+    
     async def bird_watch_one_note(self, note_id):
         variables = {'note_id': note_id}
         return await self.gql_get(Endpoint.FETCH_COMMUNITY_NOTE, variables, COMMUNITY_NOTE_FEATURES)
