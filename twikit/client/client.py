@@ -1635,6 +1635,8 @@ class Client:
                     if display_type and display_type[0] == 'SelfThread':
                         tweet.thread = [tweet_object, *replies]
 
+        _fetch_more_replies = None
+        reply_next_cursor = None
         if entries[-1]['entryId'].startswith('cursor'):
             # if has more replies
             item_content = entry.get('content', {}).get('itemContent', {})
@@ -1642,9 +1644,6 @@ class Client:
             if reply_next_cursor:
               _fetch_more_replies = partial(self._get_more_replies,
                                             tweet_id, reply_next_cursor)
-        else:
-            reply_next_cursor = None
-            _fetch_more_replies = None
 
         tweet.replies = Result(
             replies_list,
