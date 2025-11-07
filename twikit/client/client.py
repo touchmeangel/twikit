@@ -1637,7 +1637,7 @@ class Client:
 
         if entries[-1]['entryId'].startswith('cursor'):
             # if has more replies
-            item_content = entry['item'].get('itemContent', {})
+            item_content = entry['content'].get('itemContent', {})
             reply_next_cursor = item_content.get('value')
             if reply_next_cursor:
               _fetch_more_replies = partial(self._get_more_replies,
