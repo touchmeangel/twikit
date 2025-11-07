@@ -1615,7 +1615,7 @@ class Client:
                                 continue
                             replies.append(rpl)
                         if 'cursor' in reply.get('entryId'):
-                            item_content = entry['item'].get('itemContent', {})
+                            item_content = entry.get('item', {}).get('itemContent', {})
                             sr_cursor = item_content.get('value')
                             if not sr_cursor:
                                 continue
