@@ -1613,7 +1613,10 @@ class Client:
                                 continue
                             replies.append(rpl)
                         if 'cursor' in reply.get('entryId'):
-                            sr_cursor = reply['item']['itemContent']['value']
+                            item_content = entry['item'].get('itemContent', {})
+                            sr_cursor = item_content.get('value')
+                            if not sr_cursor:
+                                continue
                             show_replies = partial(
                                 self._show_more_replies,
                                 tweet_id,
@@ -1632,9 +1635,11 @@ class Client:
 
         if entries[-1]['entryId'].startswith('cursor'):
             # if has more replies
-            reply_next_cursor = entries[-1]['content']['itemContent']['value']
-            _fetch_more_replies = partial(self._get_more_replies,
-                                          tweet_id, reply_next_cursor)
+            item_content = entry['item'].get('itemContent', {})
+            reply_next_cursor = item_content.get('value')
+            if reply_next_cursor:
+              _fetch_more_replies = partial(self._get_more_replies,
+                                            tweet_id, reply_next_cursor)
         else:
             reply_next_cursor = None
             _fetch_more_replies = None
