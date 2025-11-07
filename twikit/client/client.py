@@ -1523,7 +1523,7 @@ class Client:
                 results.append(tweet)
 
         if entries[-1]['entryId'].startswith('cursor'):
-            item_content = entry['item'].get('itemContent', {})
+            item_content = entry['content'].get('itemContent', {})
             next_cursor = item_content.get('value')
             if next_cursor:
               _fetch_next_result = partial(self._get_more_replies, tweet_id, next_cursor)
